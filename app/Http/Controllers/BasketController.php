@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Product;
 
 class BasketController extends Controller
 {
@@ -33,6 +34,10 @@ class BasketController extends Controller
             $order->products()->attach($productId);
         }
 
+        $product = Product::find($productId);
+
+        session()->flash('success','Продукт "'.$product->name.'" було додано в корзину');
+
         return redirect()->route('basket');
     }
 
@@ -54,9 +59,42 @@ class BasketController extends Controller
                 $PivotRow->update();
             }
         }
-        
+
+        $product = Product::find($product_id);
+
+        session()->flash('warning','Продукт "'.$product->name.'" було видалено з корзину');
 
         return redirect()->route('basket');
 
+    }
+
+    public function basketOrder(){
+        $orderId = session('orderId');
+        if(is_null($orderId)){
+            return redirect()->route('basket');
+        }
+
+        $order = Order::find($orderId);
+       
+        return view('order', compact('order'));
+    }
+
+    public function basketConfirm(Request $request){
+        $orderId = session('orderId');
+        if(is_null($orderId)){
+            return redirect()->route('basket');
+        }
+
+        $order = Order::find($orderId);
+
+        $success = $order->getOrder($request->name, $request->phone);
+        
+        if($success){
+            session()->flash('success', 'Замовлення було підтвкрджено');
+        }else{
+            session()->flash('warning', 'Сталася помилка');
+        }
+
+        return redirect()->route('index');
     }
 }

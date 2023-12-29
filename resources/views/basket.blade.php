@@ -4,6 +4,12 @@
 
 <div class="starter-template">
         <h1>Корзина</h1>
+        @if(session()->has('success'))
+            <p class="alert alert-success">{{session()->get('success')}}</p>
+        @endif
+        @if(session()->has('warning'))
+            <p class="alert alert-warning">{{session()->get('warning')}}</p>
+        @endif
         <p>Оформление заказа</p>
         <div class="panel">
             <table class="table table-striped">
@@ -25,18 +31,18 @@
                         </a>
 
                         </td>
-                        <td><span class="badge">{{$product->pivot->count}}</span>
+                        <td><span class="">{{$product->pivot->count}}</span>
                             <div class="btn-group">
                                 <form action="{{route('removeBasket', $product)}}" method="POST">
                                     <button type="submit" class="btn btn-danger">
                                        
-                                       <span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+                                       <span class="glyphicon glyphicon-minus" aria-hidden="true">-</span></button>
                                     @csrf
                                 </form>
                                 <form action="{{route('addBasket', $product)}}" method="POST">
                                     <button type="submit" class="btn btn-success">
                                        
-                                       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                                       <span class="glyphicon glyphicon-plus" aria-hidden="true">+</span></button>
                                     @csrf
                                 </form>
                             </div>
@@ -53,7 +59,7 @@
             </table>
             <br>
             <div class="btn-group pull-right" role="group">
-                <a type="button" class="btn btn-success" href="/basket/place">Оформить заказ</a>
+                <a type="button" class="btn btn-success" href="{{route('basket-order')}}">Оформить заказ</a>
             </div>
         </div>
     </div>
