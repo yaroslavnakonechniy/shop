@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'App\Http\Controllers\MainController@index')->name('index');
+Route::get('/categories', 'App\Http\Controllers\MainController@categories')->name('categories');
+Route::get('/basket', 'App\Http\Controllers\BasketController@basket')->name('basket');
+Route::post('/basket/add/{id}', 'App\Http\Controllers\BasketController@addBasket')->name('addBasket');
+Route::post('/basket/remove/{id}', 'App\Http\Controllers\BasketController@removeBasket')->name('removeBasket');
+
+
+Route::get('/categories/{category}', 'App\Http\Controllers\MainController@category')->name('category');
+Route::get('/{category}/{product?}', 'App\Http\Controllers\MainController@show_product')->name('show_product');
