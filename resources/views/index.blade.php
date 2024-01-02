@@ -26,8 +26,6 @@
                                 <button type="submit" class="btn btn-primary"> В корзину</button>
                             </form>
 
-                            <a href="{{route('show_product',[$product->category->code, $product->id] )}}" class="btn btn-default" role="button">Подробнее</a>
-                            
                             <p></p>
                         </div>
                     </div>

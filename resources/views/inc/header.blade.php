@@ -9,7 +9,17 @@
           <li><a href="{{route('index')}}" class="nav-link px-2 link-body-emphasi">Все товары</a></li>
           <li><a href="{{route('categories')}}" class="nav-link px-2 link-body-emphasis">Категории</a></li>
           <li><a href="{{route('basket')}}" class="nav-link px-2 link-body-emphasis">В корзину</a></li>
-          <li><a href="#" class="nav-link px-2 link-body-emphasis">Панель администратора</a></li>
+          <li><a href="{{route('login')}}" class="nav-link px-2 link-body-emphasis">Панель администратора</a></li>
+        </ul>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                @guest
+                    <li><a href="{{ route('login') }}" class="nav-link px-2 link-body-emphasis">Панель администратора</a></li>
+                @endguest
+
+                @auth
+                    <li><a href="{{ route('home') }}" class="nav-link px-2 link-body-emphasis">Панель администратора</a></li>
+                    <li><a href="{{ route('get-logout') }}" class="nav-link px-2 link-body-emphasis">Выйти</a></li>
+                @endauth
         </ul>
 
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
