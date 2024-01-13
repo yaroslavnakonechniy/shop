@@ -30,7 +30,7 @@ Route::post('/basket/remove/{id}', 'App\Http\Controllers\BasketController@remove
 
 
 Route::get('/categories/{category}', 'App\Http\Controllers\MainController@category')->name('category');
-//Route::get('/{category}/{product?}', 'App\Http\Controllers\MainController@show_product')->name('show_product');
+Route::get('/{category}/{product?}', 'App\Http\Controllers\MainController@show_product')->name('show_product');
 
 Auth::routes();
 
