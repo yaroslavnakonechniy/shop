@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class BasketController extends Controller
 {
@@ -32,6 +33,11 @@ class BasketController extends Controller
             $PivotRow->update();
         }else{
             $order->products()->attach($productId);
+        }
+
+        if(Auth::check()){
+            $order->id_user = Auth::id();
+            $order->save();
         }
 
         $product = Product::find($productId);

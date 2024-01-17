@@ -19,23 +19,34 @@ Auth::routes([
 ]);
 
 Route::get('/logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('get-logout');
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => 'auth'], function(){
+    Route::group(['middleware' => 'is_admin'], function(){
+        Route::get('/orders', 'App\Http\Controllers\Admin\Order\IndexController@index')->name('home');
+    });
+});
+
 Route::get('/', 'App\Http\Controllers\MainController@index')->name('index');
 Route::get('/categories', 'App\Http\Controllers\MainController@categories')->name('categories');
-Route::get('/basket', 'App\Http\Controllers\BasketController@basket')->name('basket');
-Route::get('/basket/order', 'App\Http\Controllers\BasketController@basketOrder')->name('basket-order');
-Route::post('/basket/confirm', 'App\Http\Controllers\BasketController@basketConfirm')->name('basket-confirm');
-Route::post('/basket/add/{id}', 'App\Http\Controllers\BasketController@addBasket')->name('addBasket');
-Route::post('/basket/remove/{id}', 'App\Http\Controllers\BasketController@removeBasket')->name('removeBasket');
 
+Route::group(['prefix' => 'basket'], function(){
+
+    Route::post('/add/{id}', 'App\Http\Controllers\BasketController@addBasket')->name('addBasket');
+
+    Route::group(['middleware' => 'basket_not_empty'], function(){
+
+        Route::get('/', 'App\Http\Controllers\BasketController@basket')->name('basket');
+        Route::get('/order', 'App\Http\Controllers\BasketController@basketOrder')->name('basket-order');
+        Route::post('/confirm', 'App\Http\Controllers\BasketController@basketConfirm')->name('basket-confirm');
+        Route::post('/remove/{id}', 'App\Http\Controllers\BasketController@removeBasket')->name('removeBasket');
+    });
+});
 
 Route::get('/categories/{category}', 'App\Http\Controllers\MainController@category')->name('category');
-//Route::get('/{category}/{product?}', 'App\Http\Controllers\MainController@show_product')->name('show_product');
+Route::get('/{category}/{product?}', 'App\Http\Controllers\MainController@show_product')->name('show_product');
 
 Auth::routes();
 
-Route::group(['midlleware' => 'auth'], function(){
-    Route::get('/orders', 'App\Http\Controllers\Admin\Order\IndexController@index')->name('home');
-});
+
 
 
