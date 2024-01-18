@@ -8,6 +8,8 @@ use App\Models\Product;
 
 class Category extends Model
 {
+    protected $fillable = ['code', 'name', 'description', 'image'];
+
     use HasFactory;
 
     public function products(){
