@@ -20,10 +20,12 @@ Auth::routes([
 
 Route::get('/logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('get-logout');
 
-Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function(){
     Route::group(['middleware' => 'is_admin'], function(){
         Route::get('/orders', 'App\Http\Controllers\Admin\Order\IndexController@index')->name('home');
     });
+
+    Route::resource('categories', 'App\Http\Controllers\Admin\Category\CategoriesController');
 });
 
 Route::get('/', 'App\Http\Controllers\MainController@index')->name('index');
