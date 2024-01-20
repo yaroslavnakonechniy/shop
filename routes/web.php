@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function(){
     });
 
     Route::resource('categories', 'App\Http\Controllers\Admin\Category\CategoriesController');
+    Route::resource('products', 'App\Http\Controllers\Admin\Product\ProductController');
 });
 
 Route::get('/', 'App\Http\Controllers\MainController@index')->name('index');
